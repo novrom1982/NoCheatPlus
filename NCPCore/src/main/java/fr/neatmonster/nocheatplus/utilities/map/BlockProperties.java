@@ -2013,6 +2013,83 @@ public class BlockProperties {
             BlockFlags.addFlags(mat, BlockFlags.F_IGN_PASSABLE_CHECK);
             BlockFlags.removeFlags(mat, BlockFlags.F_SOLID | BlockFlags.F_GROUND);
         }
+
+        // === АДАПТАЦИЯ ПОД ВЕРСИЮ 26.3 (Новые блоки и Poplar) ===
+        
+        // 1. Полублоки (SLAB)
+        final String[] slabNames = {
+            "BLACK_CONCRETE_SLAB", "BLACK_WOOL_SLAB", "BLUE_CONCRETE_SLAB", "BLUE_WOOL_SLAB",
+            "BROWN_CONCRETE_SLAB", "BROWN_WOOL_SLAB", "CYAN_CONCRETE_SLAB", "CYAN_WOOL_SLAB",
+            "GRAY_CONCRETE_SLAB", "GRAY_WOOL_SLAB", "GREEN_CONCRETE_SLAB", "GREEN_WOOL_SLAB",
+            "LIGHT_BLUE_CONCRETE_SLAB", "LIGHT_BLUE_WOOL_SLAB", "LIGHT_GRAY_CONCRETE_SLAB", "LIGHT_GRAY_WOOL_SLAB",
+            "LIME_CONCRETE_SLAB", "LIME_WOOL_SLAB", "MAGENTA_CONCRETE_SLAB", "MAGENTA_WOOL_SLAB",
+            "ORANGE_CONCRETE_SLAB", "ORANGE_WOOL_SLAB", "PINK_CONCRETE_SLAB", "PINK_WOOL_SLAB",
+            "PURPLE_CONCRETE_SLAB", "PURPLE_WOOL_SLAB", "RED_CONCRETE_SLAB", "RED_WOOL_SLAB",
+            "WHITE_CONCRETE_SLAB", "WHITE_WOOL_SLAB", "YELLOW_CONCRETE_SLAB", "YELLOW_WOOL_SLAB",
+            "POPLAR_SLAB"
+        };
+        for (String sName : slabNames) {
+            try {
+                Material mat = Material.valueOf(sName);
+                if (mat != null) {
+                    BlockFlags.setFlag(mat, BlockFlags.F_GROUND | BlockFlags.F_XZ100 | BlockFlags.F_SOLID);
+                    setBlock(mat, new BlockProps(noTool, 0.8f));
+                }
+            } catch (Exception ignored) {}
+        }
+
+        // 2. Ступеньки (STAIRS)
+        final String[] stairsNames = {
+            "BLACK_CONCRETE_STAIRS", "BLACK_WOOL_STAIRS", "BLUE_CONCRETE_STAIRS", "BLUE_WOOL_STAIRS",
+            "BROWN_CONCRETE_STAIRS", "BROWN_WOOL_STAIRS", "CYAN_CONCRETE_STAIRS", "CYAN_WOOL_STAIRS",
+            "GRAY_CONCRETE_STAIRS", "GRAY_WOOL_STAIRS", "GREEN_CONCRETE_STAIRS", "GREEN_WOOL_STAIRS",
+            "LIGHT_BLUE_CONCRETE_STAIRS", "LIGHT_BLUE_WOOL_STAIRS", "LIGHT_GRAY_CONCRETE_STAIRS", "LIGHT_GRAY_WOOL_STAIRS",
+            "LIME_CONCRETE_STAIRS", "LIME_WOOL_STAIRS", "MAGENTA_CONCRETE_STAIRS", "MAGENTA_WOOL_STAIRS",
+            "ORANGE_CONCRETE_STAIRS", "ORANGE_WOOL_STAIRS", "PINK_CONCRETE_STAIRS", "PINK_WOOL_STAIRS",
+            "PURPLE_CONCRETE_STAIRS", "PURPLE_WOOL_STAIRS", "RED_CONCRETE_STAIRS", "RED_WOOL_STAIRS",
+            "WHITE_CONCRETE_STAIRS", "WHITE_WOOL_STAIRS", "YELLOW_CONCRETE_STAIRS", "YELLOW_WOOL_STAIRS",
+            "POPLAR_STAIRS"
+        };
+        for (String stName : stairsNames) {
+            try {
+                Material mat = Material.valueOf(stName);
+                if (mat != null) {
+                    BlockFlags.setFlag(mat, BlockFlags.F_STAIRS | BlockFlags.F_GROUND | BlockFlags.F_SOLID);
+                    setBlock(mat, new BlockProps(noTool, 0.8f));
+                }
+            } catch (Exception ignored) {}
+        }
+
+        // 3. Кастомная древесина Тополь (POPLAR) и сопутствующие блоки
+        final Object[][] customProperties = {
+            {"ORANGE_POPLAR_LEAVES", BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, leafType},
+            {"YELLOW_POPLAR_LEAVES", BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, leafType},
+            {"RED_POPLAR_LEAVES", BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, leafType},
+            {"POPLAR_LOG", BlockFlags.F_SOLID | BlockFlags.F_GROUND, woodType},
+            {"POPLAR_WOOD", BlockFlags.F_SOLID | BlockFlags.F_GROUND, woodType},
+            {"POPLAR_FENCE", BlockFlags.F_HEIGHT150 | BlockFlags.F_VARIABLE | BlockFlags.F_THICK_FENCE | BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, woodType},
+            {"POPLAR_HANGING_SIGN", BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, new BlockProps(woodAxe, 1.0f)},
+            {"POPLAR_WALL_HANGING_SIGN", BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, new BlockProps(woodAxe, 1.0f)},
+            {"POPLAR_DOOR", BlockFlags.F_SOLID | BlockFlags.F_GROUND | BlockFlags.F_VARIABLE_USE | BlockFlags.F_VARIABLE_REDSTONE, woodDoorType},
+            {"POPLAR_TRAPDOOR", BlockFlags.F_SOLID | BlockFlags.F_GROUND | BlockFlags.F_VARIABLE_USE | BlockFlags.F_VARIABLE_REDSTONE | BlockFlags.F_VARIABLE, woodDoorType},
+            {"POPLAR_FENCE_GATE", BlockFlags.F_HEIGHT150 | BlockFlags.F_VARIABLE | BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND | BlockFlags.F_VARIABLE_USE | BlockFlags.F_VARIABLE_REDSTONE | BlockFlags.F_PASSABLE_X4, woodType},
+            {"POPLAR_BUTTON", BlockFlags.F_IGN_PASSABLE_CHECK, new BlockProps(woodAxe, 0.5f)},
+            {"POPLAR_PRESSURE_PLATE", BlockFlags.F_IGN_PASSABLE_CHECK, new BlockProps(woodAxe, 0.5f)},
+            {"POPLAR_SHELF", BlockFlags.F_SOLID | BlockFlags.F_IGN_PASSABLE_CHECK | BlockFlags.F_GROUND, woodType},
+            {"POPLAR_SIGN", BlockFlags.F_IGN_PASSABLE_CHECK, new BlockProps(woodAxe, 1.0f)},
+            {"POPLAR_WALL_SIGN", BlockFlags.F_IGN_PASSABLE_CHECK, new BlockProps(woodAxe, 1.0f)},
+            {"RED_SHRUB", BlockFlags.F_IGN_PASSABLE_CHECK, instantType}
+        };
+
+        for (Object[] data : customProperties) {
+            try {
+                Material mat = Material.valueOf((String) data[0]);
+                if (mat != null) {
+                    BlockFlags.setFlag(mat, (Long) data[1]);
+                    setBlock(mat, (BlockProps) data[2]);
+                }
+            } catch (Exception ignored) {}
+        }
     }
 
     /**
