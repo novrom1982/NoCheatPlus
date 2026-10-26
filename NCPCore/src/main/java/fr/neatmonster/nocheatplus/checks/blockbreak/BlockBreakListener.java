@@ -143,6 +143,10 @@ public class BlockBreakListener extends CheckListener {
                 return;
             }
 
+            if (block.getType().name().contains("SIGN")) {
+                isInstaBreak = AlmostBoolean.YES;
+            }
+
             // Re-check if this is a block interacted with before. With instantly broken blocks, this may be off by one orthogonally.
             final int tick = TickTask.getTick();
             final boolean isInteractBlock = !bdata.getLastIsCancelled() && bdata.matchesLastBlock(tick, block);
